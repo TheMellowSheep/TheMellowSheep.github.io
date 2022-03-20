@@ -1,0 +1,9 @@
+
+canvas {
+	background-color : rgb(118, 189, 118);
+
+	height           : 80vh; /* vh = hauteur du pdv de l'utilisateur */
+	width            : 99vw; /* vw idem mais pour la largeur */
+
+	/* centrer ? */
+}
