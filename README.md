@@ -8,7 +8,9 @@ Clônage avec ``git clone https://github.com/TheMellowSheep/website.git``.
 
 ## Conventions de code
 
-> Nommage en camelCase. Les noms de variables et de fonctions sera mis en anglais, de même pour la documentation (commentaires inclus !). Indentation avec des ``tab``
+> Nommage en camelCase. Les noms de variables et de fonctions sera mis en anglais, de même pour la documentation. 
+Indentation avec des ``tab``
+Les commentaires temporaires seront en français, tandis que les commentaires définitifs en anglais.
 
 - Mélodie
 
