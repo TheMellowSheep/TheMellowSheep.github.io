@@ -1,12 +1,5 @@
 "use strict"
 
-// Condition de victoire ( tmp )
-const corpsMax = 10;
-
-//
-const maxLine = 16;
-const maxColumn = 20;
-
 class Coord{
     constructor(line, column){
         this.line = line;
@@ -14,108 +7,116 @@ class Coord{
     }
 }
 
-class Snake{
-    constructor(){
-        this.snake = [new Coord(maxLine / 2,  maxColumn / 2)]; 
-        this.orientation = 38; // default = up
-    }
+let canvas;
+let maxHeight; // Line
+let maxWidth; // Column
 
-    newHead(line, column){
-        if(line >= 0 && line < maxLine
-            && column >= 0 && column < maxColumn){
+let padding = 10;
+const snakeSize = 10;
 
-            this.snake.push(new Coord(line, column));
-        }
-    }
+let snake = [];
+let alive = true;
+let orientation = "up";
 
-    display(canvasId){
-        const canvas = document.getElementById(canvasId);
-        const context = canvas.getContext("2d");
-        context.strokeRect( 0, 0, canvas.width, canvas.height);
-        
-        const caseSize = 10; // TODO : en faire une var dans le constructeur snake
+let apple = null;
 
-        for(let body of this.snake){
-            console.log(body);
-            // remplacer plus tard le cercle par une image
-            context.beginPath();
-            context.arc(body.column * caseSize , body.line  * caseSize , // coord x, y du centre
-            caseSize, // rayon
-            0, // startAngle
-            2 * Math.PI); // endAngle
-            context.stroke();
-        }
-    }
+window.addEventListener('keydown', changeDirection);
+window.setInterval(move, 500);
 
-    // recup 1er elem de la liste
-    // ajoute en tête de liste la nouvelle coord => shift ?
-    // supp la fin => pop()
+function initSnake(canvasId){
+    canvas = document.getElementById(canvasId);
 
-    // Note le point x, y est en haut à gauche de la fenetre
-    // x : axe horizontal ( = ligne )
-    // y : axe vertical (= colonne )
-    /* manage the snake's movements*/
-    
-    move(event){
-        const e = event.keyCode;
-        let head = this.snake[0];
-        let changement = true;
+    maxHeight = canvas.height;
+    maxWidth = canvas.width;
 
-        switch (e) {
-            // left, q
-            case 37 : case 81 :
-                this.newHead(head.line, head.column - 1);
-                break;
-    
-            // up, z
-            case 38 : case 90 :
-                this.newHead(head.line - 1, head.column);
-                break;
-    
-            // right, d
-            case 39 : case 68 : 
-                this.newHead(head.line, head.column + 1);                
-                break;
-    
-            // down, s
-            case 40 : case 83 : 
-                this.newHead(head.line + 1, head.column);
-                break;
-            
-            // ignore, do nothing
-            default:
-                changement = false;
-                // console.log(this.snake);
-                //this.move(this.orientation);
-                break;
-                
-        }
-        if (changement){
-            if(this.orientation != e){
-                this.orientation = e;
-            }
-            this.snake.shift();
-        }
-        
+    snake.push(new Coord(maxHeight / 2,  maxWidth / 2));
+}
+
+function newHead(line, column){
+    if(line > padding && line < maxHeight - padding
+        && column > padding && column < maxWidth - padding){
+        snake.push(new Coord(line, column));
+    }else{
+        alive = false;
     }
 }
 
-let snake = new Snake();
-window.addEventListener('keydown', snake.move);
-
-const initSnake = function(canvasId) {
-    const canvas = document.getElementById(canvasId);
+function displaySnake(){
     const context = canvas.getContext("2d");
     context.strokeRect( 0, 0, canvas.width, canvas.height);
-    
-    // TODO : convertir tab <-> affichage
-        // test :
-    
-    console.log(snake);
-    snake.move(37);
-    console.log(snake);
-    snake.display(canvasId);
+
+    for(let body of snake){
+        // remplacer plus tard le cercle par une image
+        context.beginPath();
+        context.arc(body.column /* * caseSize*/ , body.line /* * caseSize */, // coord x, y du centre
+        snakeSize, // rayon
+        0, // startAngle
+        2 * Math.PI); // endAngle
+        context.stroke();
+    }
 }
 
-// while(snake.length() < corpsMax){
-// }
+function clear (){
+    const context = canvas.getContext("2d");
+    context.fillStyle = "green"; // TODO à changer
+    context.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+function changeDirection(event){
+    const e = event.keyCode;
+
+    switch (e) {
+        // left, q
+        case 37 : case 81 : orientation = "left"; break;
+
+        // up, z
+        case 38 : case 90 : orientation = "up"; break;
+
+        // right, d
+        case 39 : case 68 : orientation = "right"; break;
+
+        // down, s
+        case 40 : case 83 : orientation = "down"; break;
+
+        case 13 : // enter
+            let head = snake[snake.length - 1];
+            newHead(head.line, head.column);
+            // add body
+
+        default: 
+            console.log(`ignore this key (ASCII code : ${e})`);
+            break;
+    }
+}
+
+function move (){
+    if(alive){
+        let head = snake[snake.length - 1];
+        switch (orientation) {
+            case "left" :
+                newHead(head.line, head.column - 1 * padding);
+                break;
+
+            case "up" :
+                newHead(head.line - 1 * padding, head.column);
+                break;
+
+            case "right" : 
+                newHead(head.line, head.column + 1 * padding);                
+                break;
+
+            case "down" :
+                newHead(head.line + 1 * padding, head.column);
+                break;
+
+            default : break; // obligatoire
+        }
+        snake.shift();
+        clear();
+        displaySnake();
+    }   
+}
+
+function addApple(){
+    apple = new Coord(getRandomInt(maxHeight), getRandomInt(maxWidth));
+}

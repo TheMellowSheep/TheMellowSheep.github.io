@@ -6,8 +6,6 @@ import {Snake} from './snake';
 const apple = 1;
 const player = 2;
 
-
-
 //
 let board = null;
 let snake = new Snake();
