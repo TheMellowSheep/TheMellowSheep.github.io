@@ -11,10 +11,6 @@ let board = null;
 let snake = new Snake();
 
 
-function getRandomInt(max){
-    return Math.floor(Math.random() * max)
-}
-
 class Board{
     constructor(height, width){
         this.line = height / maxLine;

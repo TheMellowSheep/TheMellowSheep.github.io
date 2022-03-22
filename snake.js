@@ -13,16 +13,20 @@ let maxWidth; // Column
 
 let padding = 10;
 const snakeSize = 10;
+const appleSize = 10;
 
 let snake = [];
 let alive = true;
 let orientation = "up";
+let speed = 500;
 
 let apple = null;
 
-window.addEventListener('keydown', changeDirection);
-window.setInterval(move, 500);
 
+window.addEventListener('keydown', changeDirection);
+window.setInterval(move, speed); // TODO changer pour une autre implémentation ?
+
+/* Snake */
 function initSnake(canvasId){
     canvas = document.getElementById(canvasId);
 
@@ -41,30 +45,8 @@ function newHead(line, column){
     }
 }
 
-function displaySnake(){
-    const context = canvas.getContext("2d");
-    context.strokeRect( 0, 0, canvas.width, canvas.height);
-
-    for(let body of snake){
-        // remplacer plus tard le cercle par une image
-        context.beginPath();
-        context.arc(body.column /* * caseSize*/ , body.line /* * caseSize */, // coord x, y du centre
-        snakeSize, // rayon
-        0, // startAngle
-        2 * Math.PI); // endAngle
-        context.stroke();
-    }
-}
-
-function clear (){
-    const context = canvas.getContext("2d");
-    context.fillStyle = "green"; // TODO à changer
-    context.fillRect(0, 0, canvas.width, canvas.height);
-}
-
 function changeDirection(event){
-    const e = event.keyCode;
-
+    const e = event.keyCode; // TODO : directement sur le switch
     switch (e) {
         // left, q
         case 37 : case 81 : orientation = "left"; break;
@@ -112,11 +94,83 @@ function move (){
             default : break; // obligatoire
         }
         snake.shift();
+        eatApple();
         clear();
         displaySnake();
-    }   
+        if(apple == null){
+            addApple();
+        }
+        displayApple();
+    }else{
+        displayDead();
+        // TODO : faire apparaitre un bouton replay ?
+    }
 }
 
+/* Apple */
 function addApple(){
-    apple = new Coord(getRandomInt(maxHeight), getRandomInt(maxWidth));
+    apple = new Coord(getRandomInt(maxHeight - appleSize), getRandomInt(maxWidth - appleSize));
+}
+
+function eatApple(){
+    if(apple != null){
+        let head = snake[snake.length - 1];
+        if(apple.line - appleSize < head.line && 
+            apple.line + appleSize > head.line
+            && apple.column - appleSize < head.column &&
+            apple.column + appleSize > head.column ){
+
+            apple = null;
+            newHead(head.line, head.column);
+            speed -= 10;
+
+        }
+    }
+}
+
+function getRandomInt(max){
+    // TODO : donner une intervalle inférieur
+    return Math.floor(Math.random() * max)
+}
+
+// TODO : une fct qui regroupe l'ensemble des display
+
+function displaySnake(){
+    const context = canvas.getContext("2d");
+    context.strokeRect( 0, 0, canvas.width, canvas.height);
+
+    for(let body of snake){
+        // TODO remplacer plus tard le cercle par une image
+        context.beginPath();
+        context.arc(body.column /* * caseSize*/ , body.line /* * caseSize */, // coord x, y du centre
+        snakeSize, // rayon
+        0, // startAngle
+        2 * Math.PI); // endAngle
+        context.stroke();
+    }
+}
+
+function displayDead(){
+    const context = canvas.getContext("2d");
+    context.strokeStyle = "gray";
+    context.font = "40px Arial";
+    context.strokeText("You're Dead", maxWidth / 5, maxHeight / 2);
+}
+
+function displayApple(){
+    const context = canvas.getContext("2d");
+   
+    // TODO remplacer plus tard le cercle par une image
+    context.beginPath();
+    context.arc(apple.column /* * caseSize*/ , apple.line /* * caseSize */, // coord x, y du centre
+        appleSize, // rayon
+        0, // startAngle
+        2 * Math.PI); // endAngle
+    context.stroke();
+}
+
+function clear (){
+    const context = canvas.getContext("2d");
+    context.fillStyle = "green"; // TODO à changer
+    context.fillRect(0, 0, canvas.width, canvas.height);
 }
