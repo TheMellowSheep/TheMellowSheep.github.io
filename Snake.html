@@ -3,16 +3,19 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="canva.css">
+
         <script src="snake.js" type="text/javascript"></script>
+        <!-- il faut que le type soit module afin de pouvoir importer 
+        pb : la fonction initSnake ne fctne plus après ... -->
     
     </head>
     <h1>Test du snake ...</h1>
     <body>
-        <canvas id="plateau"
-        ></canvas>
-
-        <script>
-            initSnake("plateau")
-        </script>
+        <canvas id="plateau">
+            <script>
+                initSnake("plateau");
+                // initBoard("plateau");
+            </script>
+        </canvas>
     </body>
 </html>

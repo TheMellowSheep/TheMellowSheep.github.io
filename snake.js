@@ -1,107 +1,121 @@
 "use strict"
-/*
-TODO :
-- Faire l'affichage du serpent
-- utiliser setTimeout(action, temps)
-avec une seconde = 1000
-
-*/
 
 // Condition de victoire ( tmp )
-const corps_max = 10;
+const corpsMax = 10;
 
-// Serpent
-class Snake{
-    constructor(){
-        this.snake = []; 
-        this.orientation = "up";
-    }
+//
+const maxLine = 16;
+const maxColumn = 20;
 
-    addBody(){
-        this.snake.push(this.snake[this.snake.length - 1]);
-    }
-
-    newHead(x, y){
-        // remplacer push par shift ?
-        // verif coord valide
-        // >= 0 et < canvas.width, canvas.height
-        this.snake.push(new Coord(x, y));
-    }
-
-    move(orientation){
-        // recup 1er elem de la liste
-        // ajoute en tête de liste la nouvelle coord => shift ?
-        // supp la fin => pop()
-
-        // Note le point x, y est en haut à gauche de la fenetre
-        // x : axe horizontal ( = ligne )
-        // y : axe vertical (= colonne )
-        
-        let head = this.snake[0];
-        switch (orientation) {
-            case "up": // haut
-                this.newHead(head.x - 1, head.y);
-                this.orientation = orientation;
-                break;
-            case "right": // droite
-                this.newHead(head.x, head.y + 1);
-                this.orientation = orientation;
-                break;
-            case "down": // bas
-                this.newHead(head.x + 1, head.y);
-                this.orientation = orientation;
-                break;
-            case "left": // gauche
-                this.newHead(head.x, head.y - 1);
-                this.orientation = orientation;
-                break;
-            default: // continue
-                this.move(this.orientation);
-                break;
-        }
-        //this.snake.pop();
+class Coord{
+    constructor(line, column){
+        this.line = line;
+        this.column = column;
     }
 }
 
-class Coord{
-    constructor(x, y){
-        this.x = x;
-        this.y = y;
+class Snake{
+    constructor(){
+        this.snake = [new Coord(maxLine / 2,  maxColumn / 2)]; 
+        this.orientation = 38; // default = up
+    }
+
+    newHead(line, column){
+        if(line >= 0 && line < maxLine
+            && column >= 0 && column < maxColumn){
+
+            this.snake.push(new Coord(line, column));
+        }
+    }
+
+    display(canvasId){
+        const canvas = document.getElementById(canvasId);
+        const context = canvas.getContext("2d");
+        context.strokeRect( 0, 0, canvas.width, canvas.height);
+        
+        const caseSize = 10; // TODO : en faire une var dans le constructeur snake
+
+        for(let body of this.snake){
+            console.log(body);
+            // remplacer plus tard le cercle par une image
+            context.beginPath();
+            context.arc(body.column * caseSize , body.line  * caseSize , // coord x, y du centre
+            caseSize, // rayon
+            0, // startAngle
+            2 * Math.PI); // endAngle
+            context.stroke();
+        }
+    }
+
+    // recup 1er elem de la liste
+    // ajoute en tête de liste la nouvelle coord => shift ?
+    // supp la fin => pop()
+
+    // Note le point x, y est en haut à gauche de la fenetre
+    // x : axe horizontal ( = ligne )
+    // y : axe vertical (= colonne )
+    /* manage the snake's movements*/
+    
+    move(event){
+        const e = event.keyCode;
+        let head = this.snake[0];
+        let changement = true;
+
+        switch (e) {
+            // left, q
+            case 37 : case 81 :
+                this.newHead(head.line, head.column - 1);
+                break;
+    
+            // up, z
+            case 38 : case 90 :
+                this.newHead(head.line - 1, head.column);
+                break;
+    
+            // right, d
+            case 39 : case 68 : 
+                this.newHead(head.line, head.column + 1);                
+                break;
+    
+            // down, s
+            case 40 : case 83 : 
+                this.newHead(head.line + 1, head.column);
+                break;
+            
+            // ignore, do nothing
+            default:
+                changement = false;
+                // console.log(this.snake);
+                //this.move(this.orientation);
+                break;
+                
+        }
+        if (changement){
+            if(this.orientation != e){
+                this.orientation = e;
+            }
+            this.snake.shift();
+        }
+        
     }
 }
 
 let snake = new Snake();
-// placer la tête au centre de la fenêtre
+window.addEventListener('keydown', snake.move);
 
-// Objets 
-
-// à intégrer dans la classe snake ?
 const initSnake = function(canvasId) {
     const canvas = document.getElementById(canvasId);
     const context = canvas.getContext("2d");
     context.strokeRect( 0, 0, canvas.width, canvas.height);
-
-    // remplacer plus tard le cercle par une image
-    context.beginPath();
-    context.arc( canvas.width / 2, canvas.height / 2, // coord x, y du centre
-            canvas.width / 50, // rayon
-            0, // startAngle
-            2 * Math.PI); // endAngle
-    context.stroke();
     
-    snake.newHead(canvas.width / 2, canvas.height / 2);
-    // test :
+    // TODO : convertir tab <-> affichage
+        // test :
+    
     console.log(snake);
-    snake.move("up");
+    snake.move(37);
     console.log(snake);
-
+    snake.display(canvasId);
 }
 
-
-/*
-Ce dont on a besoin :
-- une 'pomme' => une variable => est ce qu'on peut créer un type spécifique ?
-=> coordonnée
-
-=> stockée dans un tableau d'objets ?
-*/
+// while(snake.length() < corpsMax){
+// }
