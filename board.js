@@ -2,6 +2,18 @@
 
 import {Snake} from './snake';
 
+
+/*
+TODO :
+  - changer la gestion de déplacement => pour que la souris puisse être prise en compte
+*/
+
+    // Note le point x, y est en haut à gauche de la fenetre
+    // x : axe horizontal ( = ligne )
+    // y : axe vertical (= colonne )
+
+
+
 // en majuscule ?
 const apple = 1;
 const player = 2;
@@ -10,6 +22,9 @@ const player = 2;
 let board = null;
 let snake = new Snake();
 
+//
+const maxLine = 16;
+const maxColumn = 20;
 
 class Board{
     constructor(height, width){
