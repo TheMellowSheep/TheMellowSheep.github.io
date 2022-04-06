@@ -1,6 +1,6 @@
 "use strict"
 
-class Coord{
+export class Coord{
   constructor(line, column){
       this.line = line;
       this.column = column;

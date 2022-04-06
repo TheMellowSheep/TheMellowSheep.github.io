@@ -1,6 +1,6 @@
 "use strict"
 
-// import {Coord} from './coord';
+import {Coord} from './coord.js';
 
 /* TODO :
 - faire une classe serpent 
@@ -9,17 +9,16 @@
     des pommes apparaissent là où le serpent ne peut pas les atteindre
     => créer la classe Board
 
-
 - tenter de modulariser => échec
 */
-
+/*
 class Coord{
     constructor(line, column){
         this.line = line;
         this.column = column;
     }
 }
-  
+  */
 let canvas;
 let maxHeight; // Line
 let maxWidth; // Column
@@ -40,7 +39,7 @@ window.addEventListener('keydown', changeDirection);
 let timer = window.setInterval(move, speed);
 
 /* Snake */
-function initSnake(canvasId){
+export function initSnake(canvasId){
     canvas = document.getElementById(canvasId);
 
     maxHeight = canvas.height;
@@ -92,6 +91,7 @@ function changeDirection(event){
 function move (){
     if(alive){
         let head = snake[snake.length - 1];
+        console.log(snake);
         switch (direction) {
             case "left" :
                 newHead(head.line, head.column - 1 * padding);
@@ -160,7 +160,7 @@ function getRandomInt(min, max){
 
 // TODO : une fct qui regroupe l'ensemble des display
 
-function displaySnake(){
+export function displaySnake(){
     const context = canvas.getContext("2d");
     context.strokeStyle = "black";
     // context.strokeRect( 0, 0, canvas.width, canvas.height);
