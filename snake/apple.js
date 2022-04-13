@@ -1,29 +1,36 @@
 "use strict"
 
+import {Coord} from '../coord.js';
+import {maxLine, maxColumn, APPLE, ROAD} from '../board.js'; // TODO à tester
+
 function getRandomInt(min, max){
     return Math.floor(Math.random() * max) + min;
 }
 
 export class Apple{
-    constructor(){
-        this.appleSize = 5;
-        this.apple = null;
-        this.eat = 0;
+    apple = []; // allow to place more than one apple in the board
+    total = 0; // score
+
+    constructor(){}
+
+    addApple(board){ // TODO à tester
+        let coord;
+
+        do{
+            coord = new Coord(getRandomInt(0, maxLine - 1), getRandomInt(0, maxColumn - 1));
+        }while(board.contain(coord) != ROAD);
+
+        apple.append(coord);
+        board.update(coord, APPLE);
+        // snakeSize * 2 , maxHeight - snakeSize * 2), getRandomInt(snakeSize * 2, maxWidth - snakeSize * 2
     }
 
-    displayApple(){
-        const context = canvas.getContext("2d");
-        context.strokeStyle = "red";
-        // TODO remplacer plus tard le cercle par une image
-        context.beginPath();
-        context.arc(apple.column /* * caseSize*/ , apple.line /* * caseSize */, // coord x, y du centre
-            appleSize, // rayon
-            0, // startAngle
-            2 * Math.PI); // endAngle
-        context.stroke();
-    }
-
-    addApple(){
-        apple = new Coord(getRandomInt(snakeSize * 2 , maxHeight - snakeSize * 2), getRandomInt(snakeSize * 2, maxWidth - snakeSize * 2));
+    eatApple(coord){
+        index = this.apple.findIndex(coord);
+        if(index != -1){
+            this.apple.splice(index, 1);
+            this.total += 1;
+            board.update(coord, ROAD);
+        }
     }
 }

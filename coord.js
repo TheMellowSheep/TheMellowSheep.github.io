@@ -5,4 +5,12 @@ export class Coord{
       this.line = line;
       this.column = column;
   }
+
+  line(){
+    return this.line;
+  }
+
+  column(){
+    return this.column;
+  }
 }

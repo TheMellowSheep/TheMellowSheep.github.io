@@ -1,25 +1,34 @@
 "use strict"
 
 import {Coord} from '../coord.js';
-import {Board} from '../board.js';
+import {Board} from '../board.js'; // TODO à tester
+import {HEAD, BODY} from '../board.js'; // TODO à tester
 
 export const snakeSize = 10;
 
 export class Snake{
-    constructor(line, column){
-        this.snake = [];
-        snake.push(new Coord(line, column));
+    snake = [];
+    direction = "up";
+    speed = 400;
 
-        this.alive = true;
-        // On peut se contenter de vérifier que la longeur du serpent ne soit pas égal à 0
-        this.direction = "up";
-        this.speed = 400;
+    alive = true;
+    // On peut se contenter de vérifier que la longeur du serpent ne soit pas égal à 0
+
+    constructor(board){
+        snake.push(new Coord(board.maxLine() / 2, board.maxColumn() / 2));
     }
 
-    newHead(line, column){
-        if(line > padding && line < maxHeight - padding
-            && column > padding && column < maxWidth - padding){
-            snake.push(new Coord(line, column));
+    newHead(line, column, board){
+        let coord = new Coord(line, column);
+
+        if(board.inBoard(coord)){
+            // delete the previous head
+            let newBody = snake[snake.length - 1];
+            board.update(newBody, BODY);
+
+            // add the new head
+            snake.push(coord);
+            board.update(coord, HEAD);
         }else{
             alive = false;
         }
@@ -30,107 +39,67 @@ export class Snake{
         switch (e) {
             // left, q
             case 37 : case 81 : 
-            if(direction != "right") direction = "left"; 
-            break;
+                if(direction != "right") 
+                    direction = "left"; 
+                    break;
     
             // up, z
             case 38 : case 90 : 
-            if(direction != "down") direction = "up"; break;
+                if(direction != "down") 
+                    direction = "up"; 
+                    break;
     
             // right, d
             case 39 : case 68 : 
-            if(direction != "left") direction = "right"; break;
+                if(direction != "left") 
+                    direction = "right"; 
+                    break;
     
             // down, s
             case 40 : case 83 : 
-            if(direction != "up") direction = "down"; break;
-    
-            case 13 : // enter
-                let head = snake[snake.length - 1];
-                newHead(head.line, head.column);
-    
+                if(direction != "up") 
+                    direction = "down"; 
+                    break;
+
             default: 
                 console.log(`ignore this key (ASCII code : ${e})`);
                 break;
         }
     }
 
-    move (){
+    move(){
         if(alive){
             let head = snake[snake.length - 1];
-            console.log(snake);
+            // console.log(snake); // TODO à supp
             switch (direction) {
                 case "left" :
-                    newHead(head.line, head.column - 1 * padding);
+                    newHead(head.line, head.column - 1);
                     break;
     
                 case "up" :
-                    newHead(head.line - 1 * padding, head.column);
+                    newHead(head.line - 1, head.column);
                     break;
     
                 case "right" : 
-                    newHead(head.line, head.column + 1 * padding);                
+                    newHead(head.line, head.column + 1);                
                     break;
     
                 case "down" :
-                    newHead(head.line + 1 * padding, head.column);
+                    newHead(head.line + 1, head.column);
                     break;
     
                 default : break; // obligatoire
             }
+
+            // delete the tail
             snake.shift();
-    
-            clear();
-            displaySnake();
-            if(apple != null){
-                eatApple();
-                displayApple();
-            }else{
-                addApple();
-            }
-    
-        }else{
-            displayDead();
-            clearInterval(timer);
-            // TODO : faire apparaitre un bouton replay ?
         }
     }
 
     eatApple(){
-        if(apple != null){
-            let head = snake[snake.length - 1];
-            if(apple.line > head.line - snakeSize && 
-                apple.line < head.line + snakeSize
-                && apple.column > head.column - snakeSize &&
-                apple.column < head.column + snakeSize ){
-    
-                apple = null;
-                newHead(head.line, head.column);
-                speed -= 10;
-                score += 1;
-    
-                clearInterval(timer);
-                timer = null;
-                timer = window.setInterval(move, speed);
-            }
-        }
-    }
-    
-    
-    displaySnake(){
-        const context = canvas.getContext("2d");
-        context.strokeStyle = "black";
-        // context.strokeRect( 0, 0, canvas.width, canvas.height);
+        let head = snake[snake.length - 1];
 
-        for(let body of snake){
-            // TODO remplacer plus tard le cercle par une image
-            context.beginPath();
-            context.arc(body.column /* * caseSize*/ , body.line /* * caseSize */, // coord x, y du centre
-            snakeSize, // rayon
-            0, // startAngle
-            2 * Math.PI); // endAngle
-            context.stroke();
+        newHead(head.line, head.column);
+        speed -= 10;
     }
-}
-
 }
