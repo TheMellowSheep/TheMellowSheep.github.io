@@ -5,17 +5,18 @@
         <link rel="stylesheet" type="text/css" href="canva.css">
 
         <!-- Importation  -->
-        <script src="snake.js" type="module"></script>
-
+       <!--
+<script src="SnakeGame.js" type="module"></script>
+       --> 
     </head>
     <h1>Test du snake ...</h1>
     <body>
         <canvas id="plateau">
             <script type="module">
-                import {initSnake, displaySnake} from './snake.js';
+                import {init} from './SnakeGame.js';
 
-                initSnake("plateau");
-                displaySnake();
+                initSnake();
+                // displaySnake();
                 // initBoard("plateau");
             </script>
         </canvas>

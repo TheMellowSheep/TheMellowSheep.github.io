@@ -1,7 +1,8 @@
 "use strict"
 
 import {Coord} from '../coord.js';
-import {maxLine, maxColumn, APPLE, ROAD} from '../board.js'; // TODO à tester
+import {Board} from '../board.js'; // TODO à tester
+import {APPLE, ROAD} from './SnakeGame.js';
 
 function getRandomInt(min, max){
     return Math.floor(Math.random() * max) + min;

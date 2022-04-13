@@ -1,22 +1,16 @@
 "use strict"
 
-// TODO : à déplacer
-export const ROAD = 0;
-export const APPLE = 1;
-export const HEAD = 2;
-export const BODY = 3;
-
 export class Board{
     board = [];
 
     constructor(line, column){
-        maxLine = line; //16;
-        maxColumn = column; //20;
+        this.maxLine = line; //16;
+        this.maxColumn = column; //20;
 
         // creation of the board
-        for( let i = 0; i < maxLine; i++){
+        for( let i = 0; i < this.maxLine; i++){
             this.board.push([]);
-            for (let j = 0; j < maxColumn; j++ ){
+            for (let j = 0; j < this.maxColumn; j++ ){
                 this.board[i].push(0);
             }
         }
