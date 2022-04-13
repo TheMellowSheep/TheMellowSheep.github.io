@@ -1,9 +1,11 @@
 "use strict"
 
+import {Coord} from './coord.js';
+
 export class Board{
     board = [];
 
-    constructor(line, column){
+    constructor(line, column, base){
         this.maxLine = line; //16;
         this.maxColumn = column; //20;
 
@@ -11,7 +13,7 @@ export class Board{
         for( let i = 0; i < this.maxLine; i++){
             this.board.push([]);
             for (let j = 0; j < this.maxColumn; j++ ){
-                this.board[i].push(0);
+                this.board[i].push(base);
             }
         }
     }
@@ -34,9 +36,8 @@ export class Board{
     }
 
     update(coord, type){
-        if(inBoard(coord)){ // TODO nécessaire ?
-            this.board[coord.line()][coord.column()] = type;
-        }
+        this.board[coord.line()][coord.column()] = type;
+        
     }
     
     inBoard(coord){

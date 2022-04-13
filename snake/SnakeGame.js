@@ -11,20 +11,31 @@ export const HEAD = 2;
 export const BODY = 3;
 
 let display = new Ascii();
-let board = new Board(16, 20);
-let snake = new Snake(board);
+let board = new Board(16, 20, ROAD);
+let snake = new Snake(board.maxLine / 2, board.maxColumn / 2);
 let apple = new Apple();
 let timer;
 
 window.addEventListener('keydown', snake.changeDirection);
 
+let speed;
+
 export function init(){
-    timer = window.setInterval(repeat, snake.speed());
+    speed = snake.getSpeed();
+    timer = window.setInterval(repeat, speed);
 }
 
 function repeat(){
-    snake.move();
-    if(!snake.alive){
+    let newHead, newBody = snake.move();
+
+    if(board.inBoard(newHead) && board.contain(newHead) != BODY){
+        board.update(newBody, BODY);
+        board.update(newHead, HEAD);
+    }else{
+        snake.isDead();
+    }
+
+    if(!snake.alive()){
         end();
     }
     display.board();
@@ -33,11 +44,12 @@ function repeat(){
 function eatApple(){
     clearInterval(timer);
     timer = null;
+    speed = snake.getSpeed();
     timer = window.setInterval(move, speed);
 }
 
 function end(){
     clearInterval(timer);
     display.dead();
+    // afficher le score
 }
-

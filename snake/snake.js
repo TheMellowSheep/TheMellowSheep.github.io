@@ -1,24 +1,23 @@
 "use strict"
 
 import {Coord} from '../coord.js';
-import {Board} from '../board.js'; // TODO à tester
 import {HEAD, BODY, ROAD, APPLE} from './SnakeGame.js'; // TODO à tester
 
 export const snakeSize = 10;
 
 export class Snake{
     snake = [];
-    
+
     direction = "up";
     speed = 400;
     alive = true;
 
-    constructor(board){
-        snake.push(new Coord(board.maxLine() / 2, board.maxColumn() / 2));
+    constructor(lineCenter, columnCenter){
+        this.snake.push(new Coord(lineCenter, columnCenter));
     }
 
     // >>> accessor
-    speed(){
+    getSpeed(){
         return this.speed;
     }
 
@@ -31,20 +30,12 @@ export class Snake{
     }
     // <<< accessor
 
-    newHead(line, column, board){
+    newHead(line, column){
         let coord = new Coord(line, column);
-
-        if(board.inBoard(coord) && board.contain(coord) != BODY){
-            // delete the previous head
-            let newBody = snake[snake.length - 1];
-            board.update(newBody, BODY);
         
-            // add the new head
-            snake.push(coord);
-            board.update(coord, HEAD);
-        }else{
-            alive = false;
-        }
+        // add the new head
+        this.snake.push(coord);
+        return coord;
     }
 
     changeDirection(event){
@@ -81,31 +72,35 @@ export class Snake{
     }
 
     move(){
-        if(alive){
-            let head = snake[snake.length - 1];
+        if(this.alive){
+            let head = this.snake[this.snake.length - 1];
+            let newHead;
             // console.log(snake); // TODO à supp
-            switch (direction) {
+            switch (this.direction) {
                 case "left" :
-                    newHead(head.line, head.column - 1);
+                    newHead = this.newHead(head.line, head.column - 1);
                     break;
     
                 case "up" :
-                    newHead(head.line - 1, head.column);
+                    newHead = this.newHead(head.line - 1, head.column);
                     break;
     
                 case "right" : 
-                    newHead(head.line, head.column + 1);                
+                    newHead = this.newHead(head.line, head.column + 1);                
                     break;
     
                 case "down" :
-                    newHead(head.line + 1, head.column);
+                    newHead = this.newHead(head.line + 1, head.column);
                     break;
     
-                default : break; // obligatoire
+                default : 
+                    break; // obligatoire
             }
 
             // delete the tail
-            snake.shift();
+            this.snake.shift();
+
+            return (newHead, head);
         }
     }
 
@@ -114,5 +109,9 @@ export class Snake{
 
         newHead(head.line, head.column);
         speed -= 10;
+    }
+
+    isDead(){
+        this.alive = false;
     }
 }

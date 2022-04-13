@@ -3,6 +3,7 @@
 
 /*
 TODO :
+    - supprimer tout ce qui concerne Coord dans Board
     - Réimplémenter le jeu Snake
     - créer le module affichage sur un canvas
 
