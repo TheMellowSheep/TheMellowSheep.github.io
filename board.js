@@ -1,7 +1,5 @@
 "use strict"
 
-import {Coord} from './coord.js';
-
 export class Board{
     board = [];
 
@@ -26,25 +24,28 @@ export class Board{
     maxColumn(){
         return this.maxColumn;
     }
+
+    maxCoord(){
+        return [this.maxLine, this.maxColumn];
+    }
     // <<< accessor
 
-    contain(coord){
-        if(inBoard(coord)){
+    inBoard(coord){
+        let [line, column] = coord;
+    
+        return line >= 0 && line < this.maxLine
+        && column >= 0 && column < this.maxColumn;
+    }
+
+    contain(line, column){
+        if(this.inBoard([line, column])){
             return this.board[line][column];
         }
         return -1;
     }
 
     update(coord, type){
-        this.board[coord.line()][coord.column()] = type;
-        
-    }
-    
-    inBoard(coord){
-        let line = coord.line();
-        let column = coord.column();
-    
-        return line >= 0 && line < maxLine
-        && column >= 0 && column < maxColumn;
+        let [line, column] = coord;
+        this.board[line][column] = type;
     }
 }

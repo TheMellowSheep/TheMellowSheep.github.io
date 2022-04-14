@@ -3,15 +3,15 @@
 
 /*
 TODO :
-    - supprimer tout ce qui concerne Coord dans Board
     - Réimplémenter le jeu Snake
+        - gestion des touches de déplacement
+        - affichage ascii
+    - supprimer Coord
     - créer le module affichage sur un canvas
-
-    - faire en sorte que le serpent ne peut pas aller sur lui même
 
     - Créer le 2e jeu
 
-  - changer la gestion de déplacement => pour que la souris puisse être prise en compte
+    - changer la gestion de déplacement => pour que la souris puisse être prise en compte
 */
 
     // Note le point x, y est en haut à gauche de la fenetre

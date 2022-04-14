@@ -1,8 +1,5 @@
 "use strict"
 
-import {Coord} from '../coord.js';
-import {HEAD, BODY, ROAD, APPLE} from './SnakeGame.js'; // TODO à tester
-
 export const snakeSize = 10;
 
 export class Snake{
@@ -13,7 +10,7 @@ export class Snake{
     alive = true;
 
     constructor(lineCenter, columnCenter){
-        this.snake.push(new Coord(lineCenter, columnCenter));
+        this.snake.push([lineCenter, columnCenter]);
     }
 
     // >>> accessor
@@ -21,17 +18,17 @@ export class Snake{
         return this.speed;
     }
 
-    alive(){
+    getAlive(){
         return this.alive;
     }
 
-    direction(){
+    getDirection(){
         return this.direction;
     }
     // <<< accessor
 
     newHead(line, column){
-        let coord = new Coord(line, column);
+        let coord = [line, column];
         
         // add the new head
         this.snake.push(coord);
@@ -43,54 +40,53 @@ export class Snake{
         switch (e) {
             // left, q
             case 37 : case 81 : 
-                if(direction != "right") 
-                    direction = "left"; 
+                if(this.direction != "right") 
+                    this.direction = "left";
                     break;
     
             // up, z
             case 38 : case 90 : 
-                if(direction != "down") 
-                    direction = "up"; 
+                if(this.direction != "down") 
+                    this.direction = "up"; 
                     break;
     
             // right, d
             case 39 : case 68 : 
-                if(direction != "left") 
-                    direction = "right"; 
+                if(this.direction != "left") 
+                    this.direction = "right"; 
                     break;
     
             // down, s
             case 40 : case 83 : 
-                if(direction != "up") 
-                    direction = "down"; 
+                if(this.direction != "up") 
+                    this.direction = "down"; 
                     break;
 
             default: 
                 console.log(`ignore this key (ASCII code : ${e})`);
-                break;
         }
     }
 
-    move(){
+    move(direction){
         if(this.alive){
             let head = this.snake[this.snake.length - 1];
             let newHead;
             // console.log(snake); // TODO à supp
-            switch (this.direction) {
+            switch (direction) {
                 case "left" :
-                    newHead = this.newHead(head.line, head.column - 1);
+                    newHead = this.newHead(head[0], head[1] - 1);
                     break;
     
                 case "up" :
-                    newHead = this.newHead(head.line - 1, head.column);
+                    newHead = this.newHead(head[0] - 1, head[1]);
                     break;
     
                 case "right" : 
-                    newHead = this.newHead(head.line, head.column + 1);                
+                    newHead = this.newHead(head[0], head[1] + 1);                
                     break;
     
                 case "down" :
-                    newHead = this.newHead(head.line + 1, head.column);
+                    newHead = this.newHead(head[0] + 1, head[1]);
                     break;
     
                 default : 
@@ -100,7 +96,7 @@ export class Snake{
             // delete the tail
             this.snake.shift();
 
-            return (newHead, head);
+            return [newHead, head];
         }
     }
 

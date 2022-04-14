@@ -4,7 +4,8 @@ import {Board} from '../board.js'; // TODO à tester
 import {ROAD, APPLE, HEAD, BODY} from './SnakeGame.js';
 import { Coord } from '../coord.js';
 
-export class Ascii{ // ASCII
+export class Ascii { // ASCII
+
     dead(){
         console.log("You're Dead");
     }
@@ -39,13 +40,13 @@ export class Ascii{ // ASCII
         return 'o ';
     }
 
-    board(board, snakeDirection){
-        for (let i = 0; i < board.maxLine(); i++){
-            let line = '';
-            for (let j = 0; j < board.maxColumn(); j++){
-                let coord = new Coord(i, j);
+    final(maxCoord, contain, snakeDirection){
+        let [maxLine, maxColumn] = maxCoord;
 
-                switch(board.contain(coord)){
+        for (let i = 0; i < maxLine; i++){
+            let line = '';
+            for (let j = 0; j < maxColumn; j++){
+                switch(contain(i, j)){
                     case ROAD :
                         line += this.roard();
                         break;
