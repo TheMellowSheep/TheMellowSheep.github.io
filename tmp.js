@@ -6,7 +6,8 @@ TODO :
     - Réimplémenter le jeu Snake
         - gestion des touches de déplacement
         - affichage ascii
-    - supprimer Coord
+    - retirer Coord des autres modules
+    
     - créer le module affichage sur un canvas
 
     - Créer le 2e jeu
