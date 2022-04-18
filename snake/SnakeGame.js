@@ -18,7 +18,7 @@ let apple = new Apple();
 let timer;
 let speed;
 
-window.addEventListener('keydown', snake.changeDirection);
+window.addEventListener('keydown', Snake.changeDirection);
 
 export function init(){
     speed = snake.speed;
@@ -31,10 +31,10 @@ function repeat(){
 
     console.log(newHead);
 
-    if(Board.inBoard(board, newHead) && board.contain(newHead) != BODY){
+    if( Board.inBoard(board, newHead) && Board.contain(board, newHead) != BODY){
         board.update(newBody, BODY);
         board.update(newHead, HEAD);
-        display.final(board.maxCoord, board.contain, snake.direction);
+        display.board(board, snake.direction);
     }else{
         snake.isDead();
     }
@@ -55,4 +55,5 @@ function end(){
     clearInterval(timer);
     display.dead();
     // afficher le score
+    window.removeEventListener('keydown', Snake.changeDirection);
 }

@@ -1,6 +1,5 @@
 "use strict"
 
-import {Board} from '../board.js'; // TODO à tester
 import {APPLE, ROAD} from './SnakeGame.js';
 
 function getRandomInt(min, max){
@@ -21,7 +20,7 @@ export class Apple{
         }while(board.contain(coord) != ROAD);
 
         apple.append(coord);
-        board.update(coord, APPLE);
+        board.update(coord, APPLE); // TODO à corriger
         // snakeSize * 2 , maxHeight - snakeSize * 2), getRandomInt(snakeSize * 2, maxWidth - snakeSize * 2
     }
 
@@ -30,7 +29,7 @@ export class Apple{
         if(index != -1){
             this.apple.splice(index, 1);
             this.total += 1;
-            board.update(coord, ROAD);
+            // board.update(coord, ROAD); // TODO à corriger
         }
     }
 }

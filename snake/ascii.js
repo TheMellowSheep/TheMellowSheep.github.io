@@ -9,7 +9,7 @@ export class Ascii { // ASCII
         console.log("You're Dead");
     }
 
-    roard(){
+    road(){
         return '. ';
     }
     
@@ -39,33 +39,34 @@ export class Ascii { // ASCII
         return 'o ';
     }
 
-    final(maxCoord, contain, snakeDirection){
-        let [maxLine, maxColumn] = maxCoord;
+    board(board, snakeDirection){
+        let [maxLine, maxColumn] = Board.maxCoord(board);
 
+        let display = '';
         for (let i = 0; i < maxLine; i++){
-            let line = '';
             for (let j = 0; j < maxColumn; j++){
-                switch(contain(i, j)){
+                switch(Board.contain(board, [i, j])){
                     case ROAD :
-                        line += this.roard();
+                        display += this.road();
                         break;
 
                     case APPLE :
-                        line += this.apple();
+                        display += this.apple();
                         break;
 
                     case HEAD : 
-                        line += this.head(snakeDirection);
+                        display += this.head(snakeDirection);
                         break;
 
                     case BODY :
-                        line += this.body();
+                        display += this.body();
                         break;
 
                     default : break;
                 }
             }
-            console.log(line);
+            display += '\n';
         }
+        console.log(display);
     }
 }

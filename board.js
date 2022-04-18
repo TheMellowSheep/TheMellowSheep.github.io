@@ -1,10 +1,6 @@
 "use strict"
 
 /**
- * TODO : mettre toutes les méthodes ( hormis accesseurs ) statiques
- */ 
-
-/**
  * Class representing a board
  * @exports Board
  * @version 2.1
@@ -52,8 +48,8 @@ export class Board{
      * Get the max of line and column in the board
      * @returns {[number, number]} number max of line and column
      */
-    get maxCoord(){
-        return [this.line, this.column];
+    static maxCoord(board){
+        return [board.line, board.column];
     }
 
     /**
@@ -70,8 +66,7 @@ export class Board{
      * @param {[number, number]} coord - [line, column], the coordinate to test
      * @returns {boolean} True if the coordinate is in the board, else False
      */
-    static inBoard(board, coord){
-        let [line, column] = coord;
+    static inBoard(board, [line, column]){
     
         return line >= 0 && line < board.line
         && column >= 0 && column < board.column;
@@ -79,15 +74,12 @@ export class Board{
 
     /**
      * Specifies the content of the boad in the position [line, column]
-     * @param {number} line 
-     * @param {number} column 
-     * @returns {*} null if the content is unknown
+     * @param {Board} board
+     * @param {[number, number]} coord - an array [line, column]
+     * @returns {*} the content of the position [line, column] in the board, null if it's unknown
      */
-    contain(board, line, column){
-        if(Board.inBoard(board , [line, column])){
-            return board[line][column];
-        }
-        return null;
+    static contain(board, [line, column]){      
+        return board.board[line][column];
     }
 
     /**

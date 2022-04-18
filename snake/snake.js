@@ -5,7 +5,7 @@ export const snakeSize = 10;
 export class Snake{
     snake = [];
 
-    direction = "up";
+    direction = "up"; // remplacer par null plus tard
     speed = 400;
     alive = true;
 
@@ -35,7 +35,7 @@ export class Snake{
         return coord;
     }
 
-    changeDirection(event){
+    static changeDirection(event){
         const e = event.keyCode; // TODO : directement sur le switch
         switch (e) {
             // left, q
@@ -66,9 +66,13 @@ export class Snake{
                 console.log(`ignore this key (ASCII code : ${e})`);
         }
         console.log("direction prise : " + this.direction);
-        return this.direction;
     }
 
+    /**
+     * 
+     * @param {string} direction - direction the snake's going
+     * @returns an array of two array [ line, column ]
+     */
     move(direction){
         if(this.alive){
             let head = this.snake[this.snake.length - 1];

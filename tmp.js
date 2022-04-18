@@ -5,8 +5,7 @@
 TODO :
     - Réimplémenter le jeu Snake
         - gestion des touches de déplacement
-        - affichage ascii
-    - retirer Coord des autres modules
+    - Réadapter le module apple
     
     - créer le module affichage sur un canvas
 
