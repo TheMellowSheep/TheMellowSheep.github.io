@@ -1,6 +1,5 @@
 "use strict"
 
-import {Coord} from '../coord.js';
 import {Board} from '../board.js'; // TODO à tester
 import {APPLE, ROAD} from './SnakeGame.js';
 
@@ -18,7 +17,7 @@ export class Apple{
         let coord;
 
         do{
-            coord = new Coord(getRandomInt(0, maxLine - 1), getRandomInt(0, maxColumn - 1));
+            coord = [getRandomInt(0, maxLine - 1), getRandomInt(0, maxColumn - 1)]
         }while(board.contain(coord) != ROAD);
 
         apple.append(coord);

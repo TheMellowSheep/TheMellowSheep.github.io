@@ -14,15 +14,15 @@ export class Snake{
     }
 
     // >>> accessor
-    getSpeed(){
+    get speed(){
         return this.speed;
     }
 
-    getAlive(){
+    get alive(){
         return this.alive;
     }
 
-    getDirection(){
+    get direction(){
         return this.direction;
     }
     // <<< accessor

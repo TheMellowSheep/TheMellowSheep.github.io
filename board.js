@@ -1,6 +1,10 @@
 "use strict"
 
 /**
+ * TODO : mettre toutes les méthodes ( hormis accesseurs ) statiques
+ */ 
+
+/**
  * Class representing a board
  * @exports Board
  * @version 2.0
@@ -15,8 +19,8 @@ export class Board{
      * @param {*} base - The contain of the board by default
      */
     constructor(line, column, base){
-        this.maxLine = line; //16;
-        this.maxColumn = column; //20;
+        this.line = line; //16;
+        this.column = column; //20;
 
         // creation of the board
         for( let i = 0; i < line; i++){
@@ -32,24 +36,32 @@ export class Board{
      * Get the number max of line in the board
      * @returns {number} the number max of line
      */
-    maxLine(){
-        return this.maxLine;
+    get maxLine(){
+        return this.line;
     }
 
     /**
      * Get the number max of column in the board
      * @returns {number} the number max of column
      */
-    maxColumn(){
-        return this.maxColumn;
+    get maxColumn(){
+        return this.column;
     }
 
     /**
      * Get the max of line and column in the board
      * @returns {[number, number]} number max of line and column
      */
-    maxCoord(){
-        return [this.maxLine, this.maxColumn];
+    get maxCoord(){
+        return [this.line, this.column];
+    }
+
+    /**
+     * Get the content of the board in Array form
+     * @returns {Array<Array<any>>}} Content of the board
+     */
+    get board(){
+        return this.board;
     }
     // <<< accessor
 
@@ -61,8 +73,8 @@ export class Board{
     inBoard(coord){
         let [line, column] = coord;
     
-        return line >= 0 && line < this.maxLine
-        && column >= 0 && column < this.maxColumn;
+        return line >= 0 && line < this.line
+        && column >= 0 && column < this.column;
     }
 
     /**

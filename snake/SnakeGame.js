@@ -20,25 +20,25 @@ let speed;
 window.addEventListener('keydown', snake.changeDirection);
 
 export function init(){
-    speed = snake.getSpeed();
+    speed = snake.speed;
     timer = window.setInterval(repeat, speed);
 }
 
 function repeat(){
-    console.log(snake.getDirection());
-    let [newHead, newBody] = snake.move(snake.getDirection());
+    console.log(snake.direction);
+    let [newHead, newBody] = snake.move(snake.direction);
 
     console.log(newHead);
 
     if(board.inBoard(newHead) && board.contain(newHead) != BODY){
         board.update(newBody, BODY);
         board.update(newHead, HEAD);
-        display.final(board.maxCoord(), board.contain, snake.getDirection());
+        display.final(board.maxCoord, board.contain, snake.direction);
     }else{
         snake.isDead();
     }
 
-    if(!snake.getAlive()){
+    if(!snake.alive){
         end();
     }
 
@@ -47,7 +47,7 @@ function repeat(){
 function reset(){
     clearInterval(timer);
     timer = null;
-    speed = snake.getSpeed();
+    speed = snake.speed;
     timer = window.setInterval(repeat, speed);
 }
 

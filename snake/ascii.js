@@ -2,7 +2,6 @@
 
 import {Board} from '../board.js'; // TODO à tester
 import {ROAD, APPLE, HEAD, BODY} from './SnakeGame.js';
-import { Coord } from '../coord.js';
 
 export class Ascii { // ASCII
 
