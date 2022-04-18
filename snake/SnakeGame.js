@@ -14,6 +14,7 @@ let display = new Ascii();
 let board = new Board(16, 20, ROAD);
 let snake = new Snake(board.maxLine / 2, board.maxColumn / 2);
 let apple = new Apple();
+
 let timer;
 let speed;
 
@@ -30,7 +31,7 @@ function repeat(){
 
     console.log(newHead);
 
-    if(board.inBoard(newHead) && board.contain(newHead) != BODY){
+    if(Board.inBoard(board, newHead) && board.contain(newHead) != BODY){
         board.update(newBody, BODY);
         board.update(newHead, HEAD);
         display.final(board.maxCoord, board.contain, snake.direction);
@@ -41,7 +42,6 @@ function repeat(){
     if(!snake.alive){
         end();
     }
-
 }
 
 function reset(){
