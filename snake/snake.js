@@ -40,31 +40,33 @@ export class Snake{
         switch (e) {
             // left, q
             case 37 : case 81 : 
-                if(this.direction != "right") 
+                if(this.direction != "right")
                     this.direction = "left";
-                    break;
+                break;
     
             // up, z
             case 38 : case 90 : 
                 if(this.direction != "down") 
                     this.direction = "up"; 
-                    break;
+                break;
     
             // right, d
             case 39 : case 68 : 
                 if(this.direction != "left") 
                     this.direction = "right"; 
-                    break;
+                break;
     
             // down, s
             case 40 : case 83 : 
                 if(this.direction != "up") 
                     this.direction = "down"; 
-                    break;
+                break;
 
             default: 
                 console.log(`ignore this key (ASCII code : ${e})`);
         }
+        console.log("direction prise : " + this.direction);
+        return this.direction;
     }
 
     move(direction){

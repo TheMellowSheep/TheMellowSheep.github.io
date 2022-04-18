@@ -7,7 +7,7 @@
 /**
  * Class representing a board
  * @exports Board
- * @version 2.0
+ * @version 2.1
  */
 export class Board{
     board = [];
@@ -70,11 +70,11 @@ export class Board{
      * @param {[number, number]} coord - [line, column], the coordinate to test
      * @returns {boolean} True if the coordinate is in the board, else False
      */
-    inBoard(coord){
+    static inBoard(board, coord){
         let [line, column] = coord;
     
-        return line >= 0 && line < this.line
-        && column >= 0 && column < this.column;
+        return line >= 0 && line < board.line
+        && column >= 0 && column < board.column;
     }
 
     /**
@@ -83,9 +83,9 @@ export class Board{
      * @param {number} column 
      * @returns {*} null if the content is unknown
      */
-    contain(line, column){
-        if(this.inBoard([line, column])){
-            return this.board[line][column];
+    contain(board, line, column){
+        if(Board.inBoard(board , [line, column])){
+            return board[line][column];
         }
         return null;
     }
