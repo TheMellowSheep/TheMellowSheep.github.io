@@ -18,29 +18,31 @@ let apple = new Points(ROAD);
 let timer;
 let speed;
 
-window.addEventListener('keydown', Snake.changeDirection);
+window.addEventListener('keydown', snake.changeDirection);
 
 export function init(){
     speed = snake.speed;
-    timer = window.setInterval(repeat, speed);
+    timer = window.setTimeout(repeat, speed);
 
     let coord = apple.create(board);
     board.update(coord, APPLE);
 }
 
 function repeat(){
-    console.log(snake.direction);
+    console.log(snake.direction); //
+    let tail = snake.tail;
     let [newHead, newBody] = snake.move(snake.direction);
 
     console.log(newHead); //
 
     let contain;
-    
 
-    if( Board.inBoard(board, newHead) && (contain = Board.contain(board, newHead)) != BODY){
+    if(Board.inBoard(board, newHead) && (contain = Board.contain(board, newHead)) != BODY){
         
         if(contain == APPLE){
             apple.addPoint(1);
+            snake.eatApple();
+            speed = snake.speed;
 
             let coord = apple.create(board);
             board.update(coord, APPLE);
@@ -48,8 +50,17 @@ function repeat(){
             // reset ?
         }
         
-        board.update(newBody, BODY);
         board.update(newHead, HEAD);
+
+        // Tail :
+        if(tail == newBody){
+            board.update(newBody, ROAD);
+        }else{
+            board.update(newBody, BODY);
+            board.update(tail, ROAD);
+
+            console.log(snake.snake); //
+        }
 
         display.board(board, snake.direction);
     }else{
@@ -58,20 +69,23 @@ function repeat(){
 
     if(!snake.alive){
         end();
+    }else{
+        clearInterval(timer);
+        timer = window.setTimeout(repeat, speed);
     }
 }
 
 function reset(){
     speed = snake.speed;
 
-    clearInterval(timer);
+    
     timer = null;
-    timer = window.setInterval(repeat, speed);
+    timer = window.setInterval(repeat, snake.speed);
 }
 
 function end(){
     clearInterval(timer);
     display.dead();
     display.score(apple.total);
-    window.removeEventListener('keydown', Snake.changeDirection);
+    // window.removeEventListener('keydown', Snake.changeDirection);
 }

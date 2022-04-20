@@ -25,6 +25,11 @@ export class Snake{
     get direction(){
         return this.direction;
     }
+
+    get tail(){
+        return this.snake[0];
+    }
+
     // <<< accessor
 
     newHead(line, column){
@@ -35,7 +40,7 @@ export class Snake{
         return coord;
     }
 
-    static changeDirection(event){
+    changeDirection(event){
         const e = event.keyCode; // TODO : directement sur le switch
         switch (e) {
             // left, q
