@@ -9,6 +9,9 @@ export class Ascii { // ASCII
         console.log("You're Dead");
     }
 
+    score(score){
+        console.log("Points obtenu : " + score);
+    }
     #road(){
         return '. ';
     }

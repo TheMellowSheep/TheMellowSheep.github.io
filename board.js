@@ -9,7 +9,7 @@ export class Board{
     board = [];
 
     /**
-     * @constructs Create a board
+     * @constructor Create a board
      * @param {number} line - The number max of line
      * @param {number} column - The number max of column
      * @param {*} base - The contain of the board by default
@@ -87,8 +87,7 @@ export class Board{
      * @param {[number, number]} coord postition [line, column] of the value to be changed in the board
      * @param {*} type - the new value
      */
-    update(coord, type){
-        let [line, column] = coord;
+    update([line, column], type){
         this.board[line][column] = type;
     }
 }

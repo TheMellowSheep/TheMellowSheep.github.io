@@ -5,10 +5,10 @@
 TODO :
     - Réimplémenter le jeu Snake
         - gestion des touches de déplacement
-    - Réadapter le module apple
     
     - réadapter le module canvas
     - implémenter une sorte d'interface
+        => pour les différents affichage
 
     - créer module conversion
         => pour canvas <-> coord
