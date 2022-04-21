@@ -10,6 +10,7 @@ export const APPLE = 1;
 export const HEAD = 2;
 export const BODY = 3;
 
+
 let display = new Ascii();
 let board = new Board(16, 20, ROAD);
 let snake = new Snake(board.maxLine / 2, board.maxColumn / 2);
@@ -18,7 +19,7 @@ let apple = new Points(ROAD);
 let timer;
 let speed;
 
-window.addEventListener('keydown', snake.changeDirection);
+window.addEventListener('keydown', changeDirection);
 
 export function init(){
     speed = snake.speed;
@@ -28,20 +29,28 @@ export function init(){
     board.update(coord, APPLE);
 }
 
+function changeDirection(event){
+    snake.changeDirection(event);
+}
+
 function repeat(){
     console.log(snake.direction); //
     let tail = snake.tail;
     let [newHead, newBody] = snake.move(snake.direction);
 
     console.log(newHead); //
-
     let contain;
 
-    if(Board.inBoard(board, newHead) && (contain = Board.contain(board, newHead)) != BODY){
-        
+
+    if(Board.inBoard(board, newHead)){
+        contain = Board.contain(board, newHead);
+       // && !((contain = Board.contain(board, newHead)) == BODY)
+       // empecher le serpent de se toucher
+
         if(contain == APPLE){
             apple.addPoint(1);
             snake.eatApple();
+            tail = snake.tail;
             speed = snake.speed;
 
             let coord = apple.create(board);

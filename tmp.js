@@ -4,7 +4,8 @@
 /*
 TODO :
     - Réimplémenter le jeu Snake
-        - gestion des touches de déplacement
+        - Rendre les pommes mangeables
+    - rendre les champs des classes privées ( et adapter en conséquence )
     
     - réadapter le module canvas
     - implémenter une sorte d'interface

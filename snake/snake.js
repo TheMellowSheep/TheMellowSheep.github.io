@@ -3,31 +3,32 @@
 export const snakeSize = 10;
 
 export class Snake{
-    snake = [];
+    #snake = [];
 
-    direction = "up"; // remplacer par null plus tard
-    speed = 400;
-    alive = true;
+    #direction = "up"; // remplacer par null plus tard
+    #speed = 400;
+    #alive = true;
 
     constructor(lineCenter, columnCenter){
-        this.snake.push([lineCenter, columnCenter]);
+        this.#snake.push([lineCenter, columnCenter]);
     }
 
     // >>> accessor
+
     get speed(){
-        return this.speed;
+        return this.#speed;
     }
 
     get alive(){
-        return this.alive;
+        return this.#alive;
     }
 
     get direction(){
-        return this.direction;
+        return this.#direction;
     }
 
     get tail(){
-        return this.snake[0];
+        return this.#snake[0];
     }
 
     // <<< accessor
@@ -36,7 +37,7 @@ export class Snake{
         let coord = [line, column];
         
         // add the new head
-        this.snake.push(coord);
+        this.#snake.push(coord);
         return coord;
     }
 
@@ -45,32 +46,32 @@ export class Snake{
         switch (e) {
             // left, q
             case 37 : case 81 : 
-                if(this.direction != "right")
-                    this.direction = "left";
+                if(this.#direction != "right")
+                    this.#direction = "left";
                 break;
     
             // up, z
             case 38 : case 90 : 
-                if(this.direction != "down") 
-                    this.direction = "up"; 
+                if(this.#direction != "down") 
+                    this.#direction = "up"; 
                 break;
     
             // right, d
             case 39 : case 68 : 
-                if(this.direction != "left") 
-                    this.direction = "right"; 
+                if(this.#direction != "left") 
+                    this.#direction = "right"; 
                 break;
     
             // down, s
             case 40 : case 83 : 
-                if(this.direction != "up") 
-                    this.direction = "down"; 
+                if(this.#direction != "up") 
+                    this.#direction = "down"; 
                 break;
 
             default: 
                 console.log(`ignore this key (ASCII code : ${e})`);
         }
-        console.log("direction prise : " + this.direction);
+        console.log("direction prise : " + this.#direction);
     }
 
     /**
@@ -79,8 +80,8 @@ export class Snake{
      * @returns an array of two array [ line, column ]
      */
     move(direction){
-        if(this.alive){
-            let head = this.snake[this.snake.length - 1];
+        if(this.#alive){
+            let head = this.#snake[this.#snake.length - 1];
             let newHead;
             // console.log(snake); // TODO à supp
             switch (direction) {
@@ -105,20 +106,20 @@ export class Snake{
             }
 
             // delete the tail
-            this.snake.shift();
+            this.#snake.shift();
 
             return [newHead, head];
         }
     }
 
     eatApple(){
-        let head = snake[snake.length - 1];
-
-        newHead(head.line, head.column);
-        speed -= 10;
+        let head = this.#snake[this.#snake.length - 1];
+        console.log(head);
+        this.newHead(head.line, head.column);
+        this.#speed -= 10;
     }
 
     isDead(){
-        this.alive = false;
+        this.#alive = false;
     }
 }
