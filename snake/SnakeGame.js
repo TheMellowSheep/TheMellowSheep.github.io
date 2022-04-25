@@ -40,28 +40,29 @@ function repeat(){
     
     if(Board.inBoard(board, newHead)){
         contain = Board.contain(board, newHead);
-        // && !((contain = Board.contain(board, newHead)) == BODY)
-        // TODO empecher le serpent de se toucher
 
-        if(contain == APPLE){
-            apple.addPoint(1);
-            snake.eatApple(newBody);
-
-            speed = snake.speed;
-            board.update(apple.create(board), APPLE);
-        }
-        
-        board.update(newHead, HEAD);
-        
-        // Tail :
-        if(tail != newHead && newBody != tail){
-            board.update(newBody, BODY);
-            board.update(tail, ROAD);
+        if(contain == BODY){ // empecher le serpent de se toucher
+            snake.isDead();
         }else{
-            board.update(newBody, ROAD);
+            if(contain == APPLE){
+                apple.addPoint(1);
+                snake.eatApple(newBody);
+    
+                speed = snake.speed;
+                board.update(apple.create(board), APPLE);
+            }
+            
+            board.update(newHead, HEAD);
+            
+            // Tail : TODO : prendre en compte la 1er fois qu'il mange une pomme
+            if(tail != newHead && newBody != tail){
+                board.update(newBody, BODY);
+                board.update(tail, ROAD);
+            }else{
+                board.update(newBody, ROAD);
+            }
+            display.board(board, snake.direction);
         }
-
-        display.board(board, snake.direction);
     }else{
         snake.isDead();
     }
@@ -74,17 +75,10 @@ function repeat(){
     }
 }
 
-function reset(){
-    speed = snake.speed;
-
-    
-    timer = null;
-    timer = window.setInterval(repeat, snake.speed);
-}
-
 function end(){
+    console.log(snake.tail);
     clearInterval(timer);
     display.dead();
     display.score(apple.total);
-    // window.removeEventListener('keydown', Snake.changeDirection);
+    window.removeEventListener('keydown', changeDirection);
 }
