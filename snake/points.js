@@ -18,7 +18,7 @@ function getRandomInt(min, max){
  * @version 2.0
  */
 export class Points{
-    counter = 0;
+    #counter = 0;
 
     /**
      * @constructor Create object to gain points
@@ -34,7 +34,7 @@ export class Points{
      * Get the total of point gained
      */
     get total(){
-        return this.counter;
+        return this.#counter;
     }
 
     // <<< accessor
@@ -61,7 +61,7 @@ export class Points{
      * @param {number} point - points gained
      */
     addPoint(point){
-        this.counter = this.counter + point;
+        this.#counter = this.#counter + point;
     }
 
 
