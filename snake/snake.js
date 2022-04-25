@@ -71,7 +71,6 @@ export class Snake{
             default: 
                 console.log(`ignore this key (ASCII code : ${e})`);
         }
-        console.log("direction prise : " + this.#direction);
     }
 
     /**
@@ -83,7 +82,6 @@ export class Snake{
         if(this.#alive){
             let head = this.#snake[this.#snake.length - 1];
             let newHead;
-            // console.log(snake); // TODO à supp
             switch (direction) {
                 case "left" :
                     newHead = this.newHead(head[0], head[1] - 1);
@@ -111,12 +109,14 @@ export class Snake{
             return [newHead, head];
         }
     }
-
-    eatApple(){
-        let head = this.#snake[this.#snake.length - 1];
-        console.log(head);
-        this.newHead(head.line, head.column);
+    
+    /**
+     * 
+     * @param {[number, number]} newBody - 
+     */
+    eatApple(newBody){
         this.#speed -= 10;
+        this.#snake.unshift(newBody);
     }
 
     isDead(){

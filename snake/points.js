@@ -61,7 +61,7 @@ export class Points{
      * @param {number} point - points gained
      */
     addPoint(point){
-        this.counter = point;
+        this.counter = this.counter + point;
     }
 
 

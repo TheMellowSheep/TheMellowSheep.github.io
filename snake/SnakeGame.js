@@ -34,41 +34,31 @@ function changeDirection(event){
 }
 
 function repeat(){
-    console.log(snake.direction); //
-    let tail = snake.tail;
     let [newHead, newBody] = snake.move(snake.direction);
-
-    console.log(newHead); //
     let contain;
-
-
+    let tail = snake.tail;
+    
     if(Board.inBoard(board, newHead)){
         contain = Board.contain(board, newHead);
-       // && !((contain = Board.contain(board, newHead)) == BODY)
-       // empecher le serpent de se toucher
+        // && !((contain = Board.contain(board, newHead)) == BODY)
+        // TODO empecher le serpent de se toucher
 
         if(contain == APPLE){
             apple.addPoint(1);
-            snake.eatApple();
-            tail = snake.tail;
+            snake.eatApple(newBody);
+
             speed = snake.speed;
-
-            let coord = apple.create(board);
-            board.update(coord, APPLE);
-
-            // reset ?
+            board.update(apple.create(board), APPLE);
         }
         
         board.update(newHead, HEAD);
-
+        
         // Tail :
-        if(tail == newBody){
-            board.update(newBody, ROAD);
-        }else{
+        if(tail != newHead && newBody != tail){
             board.update(newBody, BODY);
             board.update(tail, ROAD);
-
-            console.log(snake.snake); //
+        }else{
+            board.update(newBody, ROAD);
         }
 
         display.board(board, snake.direction);
