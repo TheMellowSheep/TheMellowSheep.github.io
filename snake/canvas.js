@@ -1,9 +1,9 @@
 "use strict"
 
 import {Board} from '../board.js';
-import {APPLE, HEAD, BODY} from './SnakeGame.js';
+import {ROAD, APPLE, HEAD, BODY} from './SnakeGame.js';
 
-const appleSize = 5;
+const appleSize = 10;
 
 export class Canvas {
     #linCaseSize = 0;
@@ -23,20 +23,40 @@ export class Canvas {
     dead(){
         this.#clear();
 
-        this.context.strokeStyle = "gray";
+        this.context.strokeStyle = "black";
         this.context.font = "40px Arial";
         this.context.strokeText("You're Dead", this.canvas.width / 5, this.canvas.height / 3);
-       // this.context.strokeText(`Score : ${score}`, this.canvas.width / 5, this.canvas.height / 3 * 2);
+    }
+
+    score(total){
+        this.context.strokeText(`Score : ${total}`, this.canvas.width / 5, this.canvas.height / 3 * 2);
+    
     }
 
     #apple([line, column]){
-        this.context.strokeStyle = "red";
+        let ltest = this.canvas.width / 2;
+        let ctest = this.canvas.height / 2;
+        console.log(line * this.#linCaseSize  + " et " + column * this.#colCaseSize);
+        console.log("vrai : " + ltest + " " + ctest);
+
+        this.context.fillStyle = "red";
         this.context.beginPath();
-        this.context.arc(line /* * caseSize*/ , column /* * caseSize */, // coord x, y du centre
+        // this.context.arc(line * this.#linCaseSize , column * this.#colCaseSize, // coord x, y du centre
+        this.context.arc(ltest, ctest, // coord x, y du centre
             appleSize, // rayon
             0, // startAngle
             2 * Math.PI); // endAngle
-        context.stroke();
+        this.context.stroke();
+    }
+
+    #road([line, col]){
+        this.context.strokeStyle = this.background;
+        this.context.beginPath();
+        this.context.arc(line * this.#linCaseSize , col * this.#colCaseSize,// coord x, y du centre
+            appleSize, // rayon
+            0, // startAngle
+            2 * Math.PI); // endAngle
+        this.context.stroke();
     }
 
     #head([line, col], snakeDirection){
@@ -83,6 +103,10 @@ export class Canvas {
         for (let i = 0; i < maxLine; i++){
             for (let j = 0; j < maxColumn; j++){
                 switch(Board.contain(board, [i, j])){
+                    case ROAD :
+                        this.#road([i, j]);
+                        break;
+
                     case APPLE :
                         this.#apple([i, j]);
                         break;

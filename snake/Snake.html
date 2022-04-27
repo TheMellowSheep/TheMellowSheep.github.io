@@ -9,8 +9,8 @@
     <body>
         <canvas id="plateau">
             <script type="module">
-                import {init} from './SnakeGame.js';
-
+                import {init, recupCanvaID} from './SnakeGame.js';
+                recupCanvaID("plateau");
                 init();
                 // displaySnake();
                 // initBoard("plateau");
