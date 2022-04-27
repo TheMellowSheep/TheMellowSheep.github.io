@@ -1,11 +1,13 @@
 "use strict"
 
 import {Board} from '../board.js';
-import {ROAD, APPLE, HEAD, BODY} from './SnakeGame.js';
+import {APPLE, HEAD, BODY} from './SnakeGame.js';
 
 const appleSize = 5;
 
 export class Canvas {
+    #linCaseSize = 0;
+    #colCaseSize;
 
     constructor(canvasId, background){
         this.canvas = document.getElementById(canvasId);
@@ -27,21 +29,18 @@ export class Canvas {
        // this.context.strokeText(`Score : ${score}`, this.canvas.width / 5, this.canvas.height / 3 * 2);
     }
 
-    #road(){
-    }
-
-    #apple(){
+    #apple([line, column]){
         this.context.strokeStyle = "red";
-        // TODO remplacer plus tard le cercle par une image => autre module
         this.context.beginPath();
-        this.context.arc(apple.column /* * caseSize*/ , apple.line /* * caseSize */, // coord x, y du centre
+        this.context.arc(line /* * caseSize*/ , column /* * caseSize */, // coord x, y du centre
             appleSize, // rayon
             0, // startAngle
             2 * Math.PI); // endAngle
         context.stroke();
     }
 
-    #head(snakeDirection){
+    #head([line, col], snakeDirection){
+        // TODO faire des triangles
         switch(snakeDirection){
             case "left":
                 return '< ';
@@ -59,43 +58,46 @@ export class Canvas {
         }
     }
 
-    #body(){
-        return 'o ';
+    #body([line, column]){
+        this.context.strokeStyle = "black";
+
+        context.beginPath();
+        // TODO à vérifier, de base c'est inversé
+        context.arc(line * this.#linCaseSize, column * this.#colCaseSize, // coord x, y du centre
+        snakeSize, // rayon
+        0, // startAngle
+        2 * Math.PI); // endAngle
+        context.stroke();
     }
 
     board(board, snakeDirection){
         let [maxLine, maxColumn] = Board.maxCoord(board);
 
+        if(this.#linCaseSize == 0){
+            this.#linCaseSize = this.canvas.width / maxLine;
+            this.#colCaseSize = this.canvas.height / maxColumn;
+        }
+
         this.#clear();
         
-        let display = '';
         for (let i = 0; i < maxLine; i++){
             for (let j = 0; j < maxColumn; j++){
                 switch(Board.contain(board, [i, j])){
-                    case ROAD :
-                        display += this.#road();
-                        break;
-
                     case APPLE :
-                        display += this.#apple();
+                        this.#apple([i, j]);
                         break;
 
                     case HEAD : 
-                        display += this.#head(snakeDirection);
+                        this.#head([i, j], snakeDirection);
                         break;
 
                     case BODY :
-                        display += this.#body();
+                        this.#body([i, j]);
                         break;
 
                     default : break;
                 }
             }
-            display += '\n';
         }
-        console.log(display);
     }
-
-    
-
 }
