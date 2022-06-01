@@ -4,15 +4,13 @@
 /*
 TODO :    
     - la méthode tail dans la classe canvas est en réalité la tête du serpent
-    - réadapter le module canvas
     - implémenter une sorte d'interface ?
         => pour les différents affichage
 
-    - créer module conversion
-        => pour canvas <-> coord
-
     - créer module image
         => on remplace les formes par des images
+
+    - créer une fonction qui fait des déplacements plus fluide 
 
     - changer la gestion de déplacement => pour que la souris puisse être prise en compte
 

@@ -1,7 +1,7 @@
 "use strict"
 
-import {Board} from '../board.js';
-import {ROAD, APPLE, HEAD, BODY} from './SnakeGame.js';
+import {Board} from '../../board.js';
+import {ROAD, APPLE, HEAD, BODY} from '../SnakeGame.js';
 
 export class Ascii { // ASCII
 

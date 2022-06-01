@@ -1,8 +1,8 @@
 "use strict"
 
 import {Snake} from './snake.js';
-// import {Ascii} from './ascii.js';
-import { Canvas } from './canvas.js';
+// import {Ascii} from './display/ascii.js';
+import { Canvas } from './display/canvas.js';
 import {Points} from './points.js';
 import {Board} from '../board.js';
 
@@ -27,11 +27,12 @@ export function init(){
     timer = window.setTimeout(repeat, speed);
 
     let coord = apple.create(board);
+    console.log(coord); // TODO
     board.update(coord, APPLE);
 }
 
 export function recupCanvaID(canvasId){
-    display = new Canvas(canvasId, "green");
+    display = new Canvas(canvasId);
 }
 
 function changeDirection(event){
@@ -53,9 +54,13 @@ function repeat(){
             if(contain == APPLE){
                 apple.addPoint(1);
                 snake.eatApple(newBody);
-    
+
                 speed = snake.speed;
-                board.update(apple.create(board), APPLE);
+                let coord = apple.create(board);
+                board.update(coord, APPLE);
+
+                console.log(coord); // TODO
+
                 display.score(apple.total);
             }
             
