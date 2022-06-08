@@ -6,7 +6,7 @@ import {APPLE, HEAD, BODY} from '../SnakeGame.js';
 const appleSize = 5;
 const snakeSize = 10;
 
-export class Canvas {
+export class Picture {
     #xCaseSize;
     #yCaseSize = 0;
 
@@ -14,6 +14,11 @@ export class Canvas {
         this.canvas = document.getElementById(canvasId);
         this.context = this.canvas.getContext("2d");
         this.background = "rgb(118, 189, 118)";
+        this.up = document.getElementById("up") //.style.visibilty="hidden";
+        
+        this.down;
+        this.left;
+        this.right;
     }
 
     #clear(){
@@ -82,9 +87,10 @@ export class Canvas {
                 break;
 
             case "up":
-                this.context.lineTo((col + 1) * this.#xCaseSize - this.#xCaseSize / 2, (line + 1) * this.#yCaseSize);
-                this.context.moveTo(col * this.#xCaseSize, line * this.#yCaseSize);
-                this.context.lineTo((col - 1) * this.#xCaseSize + this.#xCaseSize / 2, (line + 1) * this.#yCaseSize);
+                this.context.drawImage(this.up, 10, 10);
+                // this.context.lineTo((col + 1) * this.#xCaseSize - this.#xCaseSize / 2, (line + 1) * this.#yCaseSize);
+                // this.context.moveTo(col * this.#xCaseSize, line * this.#yCaseSize);
+                // this.context.lineTo((col - 1) * this.#xCaseSize + this.#xCaseSize / 2, (line + 1) * this.#yCaseSize);
                 break;
 
             default : break;

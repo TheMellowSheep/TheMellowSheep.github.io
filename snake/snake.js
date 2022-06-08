@@ -5,11 +5,12 @@ export const snakeSize = 10;
 export class Snake{
     #snake = [];
 
-    #direction = "up"; // remplacer par null plus tard
+    #direction = "up";
     #speed = 400;
     #alive = true;
 
     constructor(lineCenter, columnCenter){
+        this.head
         this.#snake.push([lineCenter, columnCenter]);
     }
 

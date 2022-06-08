@@ -7,3 +7,9 @@ canvas {
 
 	/* centrer ? */
 }
+
+.movement {
+	height: 300px;
+  	width: auto;
+	style: "display:none"
+}
