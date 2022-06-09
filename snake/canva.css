@@ -1,15 +1,17 @@
 
 canvas {
 	background-color : rgb(118, 189, 118);
-
-	/* height           : 80vh; */ /* vh = hauteur du pdv de l'utilisateur */
-	/* width            : 99vw; */ /* vw idem mais pour la largeur */
-
-	/* centrer ? */
+	padding	: 0;
+    margin	: auto;
+    display	: block;
 }
 
 .movement {
-	height: 300px;
-  	width: auto;
-	style: "display:none"
+	display: none;
+}
+
+.rejouer{
+	position: relative; 
+	left: 48%;
+	top: 10px;
 }

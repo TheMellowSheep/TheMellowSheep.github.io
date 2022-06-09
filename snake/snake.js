@@ -74,6 +74,10 @@ export class Snake{
         }
     }
 
+    delete_tail(){
+        this.#snake.shift();
+    }
+
     /**
      * 
      * @param {string} direction - direction the snake's going
@@ -109,6 +113,7 @@ export class Snake{
 
             return [newHead, head];
         }
+        
     }
     
     /**

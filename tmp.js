@@ -3,15 +3,14 @@
 
 /*
 TODO :    
-    - la méthode tail dans la classe canvas est en réalité la tête du serpent
-    
     - implémenter une sorte d'interface ?
         => pour les différents affichage
 
-    - créer module image
-        => on remplace les formes par des images
+    - créer les const Directions
+        => considéré comme le serpent
 
     - créer une fonction qui fait des déplacements plus fluide 
+    
     - Faire en sorte que le plateau ne prend pas toute la taille du canvas
     => ça dépasse sur les bords après
 

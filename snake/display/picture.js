@@ -2,7 +2,7 @@
 
 import {Board} from '../../board.js';
 import {APPLE, HEAD, BODY} from '../SnakeGame.js';
-
+// const []
 const appleSize = 5;
 const snakeSize = 10;
 
@@ -14,11 +14,11 @@ export class Picture {
         this.canvas = document.getElementById(canvasId);
         this.context = this.canvas.getContext("2d");
         this.background = "rgb(118, 189, 118)";
-        this.up = document.getElementById("up") //.style.visibilty="hidden";
-        
-        this.down;
-        this.left;
-        this.right;
+        this.up = document.getElementById("up");
+        this.down = document.getElementById("down");
+        this.left = document.getElementById("left");
+        this.right = document.getElementById("right");
+        this.lost = document.getElementById("lost");
     }
 
     #clear(){
@@ -40,57 +40,30 @@ export class Picture {
         this.context.fillText(`Score : ${total}`, 0, this.canvas.height);
     }
 
-    #apple([line, column]){
-        this.context.strokeStyle = "red";
-        this.context.beginPath();
-        this.context.arc(column  * this.#xCaseSize, line * this.#yCaseSize,  // coord x, y du centre
-            appleSize, // rayon
-            0, // startAngle
-            2 * Math.PI); // endAngle
-        this.context.stroke();
-    }
-
-    #road([line, col]){
-        this.context.strokeStyle = this.background;
-        this.context.beginPath();
-        this.context.arc(col * this.#xCaseSize, line * this.#yCaseSize, // coord x, y du centre
-            appleSize, // rayon
-            0, // startAngle
-            2 * Math.PI); // endAngle
-        this.context.stroke();
+    #apple([line, col]){
+        let centrerX = 0; // this.#xCaseSize / 2;
+        let centrerY = 0; //this.#yCaseSize / 2;
+        this.context.drawImage(this.lost, col * this.#xCaseSize - centrerX, line * this.#yCaseSize - centrerY, this.#xCaseSize, this.#yCaseSize);
     }
 
     #head([line, col], snakeDirection){
-        this.context.strokeStyle = "black";
-        this.context.lineWidth = 7;
-        this.context.beginPath();
-
-        this.context.moveTo(col * this.#xCaseSize, line * this.#yCaseSize);
-
+        let centrerX = 0; //this.#xCaseSize / 2;
+        let centrerY = 0; //this.#yCaseSize / 2;
         switch(snakeDirection){
             case "left":
-                this.context.lineTo((col + 1) * this.#xCaseSize, (line + 1) * this.#yCaseSize - this.#yCaseSize / 2);
-                this.context.moveTo(col * this.#xCaseSize, line * this.#yCaseSize);
-                this.context.lineTo((col + 1) * this.#xCaseSize, (line - 1) * this.#yCaseSize + this.#yCaseSize / 2);
+                this.context.drawImage(this.left, col * this.#xCaseSize - centrerX, line * this.#yCaseSize - centrerY, this.#xCaseSize, this.#yCaseSize);
                 break;
 
             case "right":
-                this.context.lineTo((col - 1) * this.#xCaseSize, (line + 1) * this.#yCaseSize - this.#yCaseSize / 2);
-                this.context.moveTo(col * this.#xCaseSize, line * this.#yCaseSize);
-                this.context.lineTo((col - 1) * this.#xCaseSize, (line - 1) * this.#yCaseSize + this.#yCaseSize / 2);
+                this.context.drawImage(this.right, col * this.#xCaseSize - centrerX, line * this.#yCaseSize - centrerY, this.#xCaseSize, this.#yCaseSize);
                 break;
 
             case "down":
-                this.context.lineTo((col + 1) * this.#xCaseSize - this.#xCaseSize / 2, (line - 1) * this.#yCaseSize);
-                this.context.moveTo(col * this.#xCaseSize, line * this.#yCaseSize);
-                this.context.lineTo((col - 1) * this.#xCaseSize + this.#xCaseSize / 2, (line - 1) * this.#yCaseSize);
+                this.context.drawImage(this.down, col * this.#xCaseSize - centrerX, line * this.#yCaseSize - centrerY, this.#xCaseSize, this.#yCaseSize);
                 break;
 
             case "up":
-                this.context.drawImage(this.up, 10, 10);
-                // this.context.lineTo((col + 1) * this.#xCaseSize - this.#xCaseSize / 2, (line + 1) * this.#yCaseSize);
-                // this.context.moveTo(col * this.#xCaseSize, line * this.#yCaseSize);
-                // this.context.lineTo((col - 1) * this.#xCaseSize + this.#xCaseSize / 2, (line + 1) * this.#yCaseSize);
+                this.context.drawImage(this.up, col * this.#xCaseSize - centrerX, line * this.#yCaseSize - centrerY, this.#xCaseSize, this.#yCaseSize);
                 break;
 
             default : break;
@@ -114,8 +87,9 @@ export class Picture {
         let [maxLine, maxColumn] = Board.maxCoord(board);
 
         if(this.#yCaseSize == 0){
-            this.#yCaseSize = this.canvas.width / (maxLine - 1);
-            this.#xCaseSize = this.canvas.height / (maxColumn - 1);
+            this.#yCaseSize = this.canvas.width / maxLine ;
+           // this.#yCaseSize = (this.#yCaseSize / 2) 
+            this.#xCaseSize = this.canvas.height / maxColumn ;
         }
 
         this.#clear();
@@ -132,7 +106,8 @@ export class Picture {
                         break;
 
                     case BODY :
-                        this.#body([i, j]);
+                        this.#head([i, j], snakeDirection);
+                        // this.#body([i, j]);
                         break;
 
                     default : break; // = ROAD

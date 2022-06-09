@@ -1,7 +1,7 @@
 "use strict"
 
 import {Board} from '../../board.js';
-import {ROAD, APPLE, HEAD, BODY} from '../SnakeGame.js';
+import {APPLE, HEAD, BODY} from '../SnakeGame.js';
 
 export class Ascii { // ASCII
 
@@ -49,10 +49,6 @@ export class Ascii { // ASCII
         for (let i = 0; i < maxLine; i++){
             for (let j = 0; j < maxColumn; j++){
                 switch(Board.contain(board, [i, j])){
-                    case ROAD :
-                        display += this.#road();
-                        break;
-
                     case APPLE :
                         display += this.#apple();
                         break;
@@ -65,7 +61,9 @@ export class Ascii { // ASCII
                         display += this.#body();
                         break;
 
-                    default : break;
+                    default : 
+                        display += this.#road();
+                        break;
                 }
             }
             display += '\n';

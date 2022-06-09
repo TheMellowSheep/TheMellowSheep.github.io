@@ -3,16 +3,16 @@
 import {Snake} from './snake.js';
 // import {Ascii} from './display/ascii.js';
 import { Canvas } from './display/canvas.js';
-// import { Picture } from './display/picture.js';
+import { Picture } from './display/picture.js';
 import {Points} from './points.js';
 import {Board} from '../board.js';
 
-export const ROAD = 0;
-export const APPLE = 1;
-export const HEAD = 2;
-export const BODY = 3;
+let _enum = 0;
+export const ROAD = _enum++;
+export const APPLE = _enum++;
+export const HEAD = _enum++;
+export const BODY = _enum++;
 
-// let display = new Ascii();
 let display;
 let board = new Board(16, 20, ROAD);
 let snake = new Snake(board.maxLine / 2, board.maxColumn / 2);
@@ -29,17 +29,15 @@ window.addEventListener('keydown', changeDirection);
 
 export function init(){
     speed = snake.speed;
-    timer =  window.setTimeout(repeat, speed);
-    // requestAnimationFrame(repeat);
-
+    timer = window.setTimeout(repeat, speed);
     board.update(apple.create(board), APPLE);
 }
 
 export function recupCanvaID(canvasId){
-    // display = new Picture(canvasId);
-    display = new Canvas(canvasId);
+    display = new Picture(canvasId);
+    // display = new Canvas(canvasId);
+    // display = new Ascii();
 }
-
 
 function repeat(){
     let [newHead, newBody] = snake.move(snake.direction);
@@ -61,9 +59,7 @@ function repeat(){
                 board.update(apple.create(board), APPLE);
             }
             
-            
             board.update(newHead, HEAD);
-            // display.score(apple.total); // TODO à mettre dans 
             
             // Tail : TODO : prendre en compte la 1er fois qu'il mange une pomme
             if(tail != newHead && newBody != tail){
@@ -83,7 +79,7 @@ function repeat(){
         end();
     }else{
         clearInterval(timer);
-        timer = window.setTimeout(repeat, speed);
+        timer =window.setTimeout(repeat, speed);
     }
 }
 
