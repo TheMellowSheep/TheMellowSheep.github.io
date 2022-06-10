@@ -29,7 +29,7 @@ export class Picture {
 
         this.context.fillStyle = "black";
         this.context.font = "40px Arial";
-        this.context.fillText("You're Dead", this.canvas.width / 5, this.canvas.height / 3);
+        this.context.fillText("You're Dead", this.canvas.width / 3, this.canvas.height / 2);
     }
 
     score(total){
